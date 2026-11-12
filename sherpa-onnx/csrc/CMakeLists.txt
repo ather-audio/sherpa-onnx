@@ -949,4 +949,6 @@ add_custom_target(
   clang-tidy -p ${CMAKE_BINARY_DIR}/compile_commands.json --config-file ${PROJECT_SOURCE_DIR}/.clang-tidy ${srcs_to_check}
   DEPENDS ${sources})
 
-add_custom_target(check DEPENDS clang-tidy-check)
+if(NOT TARGET check)
+  add_custom_target(check DEPENDS clang-tidy-check)
+endif()

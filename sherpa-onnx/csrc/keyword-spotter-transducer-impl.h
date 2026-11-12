@@ -192,7 +192,11 @@ class KeywordSpotterTransducerImpl : public KeywordSpotterImpl {
     return s->GetNumProcessedFrames() + model_->ChunkSize() <
            s->NumFramesReady();
   }
-  void Reset(OnlineStream *s) const override { InitOnlineStream(s); }
+  void Reset(OnlineStream *s) const override {
+    int32_t frame_offset = s->GetKeywordResult().frame_offset;
+    InitOnlineStream(s);
+    s->GetKeywordResult().frame_offset = frame_offset;
+  }
 
   void DecodeStreams(OnlineStream **ss, int32_t n) const override {
     for (int32_t i = 0; i < n; ++i) {
